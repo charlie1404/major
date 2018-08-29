@@ -4,6 +4,7 @@
   "description": "A project of submission as minor and major in my undergraduate course.",
   "main": "index.js",
   "scripts": {
+    "start:dev":"nodemon bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Shailendra Gupta",
@@ -11,7 +12,8 @@
   "devDependencies": {
     "eslint": "^5.4.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0"
+    "eslint-plugin-import": "^2.14.0",
+    "nodemon": "^1.18.3"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
