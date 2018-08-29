@@ -5,7 +5,11 @@ module.exports = {
     watch: true,
     instances: 'max',
     exec_mode: 'cluster',
-    ignore_watch: ['node_modules/', 'logs/'],
+    ignore_watch: [
+      '.git/**/*',
+      'node_modules/**/*',
+      'logs/**/*',
+    ],
     error_file: './logs/consoleError.log',
     out_file: './logs/consoleLog.log',
     env: {
