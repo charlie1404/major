@@ -1,0 +1,19 @@
+{
+  "restartable": "rs",
+  "match": [
+    "**/*.js"
+  ],
+  "ignore": [
+    ".git/**/*",
+    "logs/**/*",
+    "node_modules/**/*"
+  ],
+  "verbose": true,
+  "events": {
+    "restart": "clear"
+  },
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ext": "js,json"
+}

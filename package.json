@@ -1,0 +1,41 @@
+{
+  "name": "sendgrid-webmail-major-minior",
+  "version": "1.0.0",
+  "description": "A project of submission as minor and major in my undergraduate course.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Shailendra Gupta",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "eslint": "^5.4.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "express-jwt": "^5.3.1",
+    "helmet": "^3.13.0",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.2.9",
+    "mongoose-unique-validator": "^2.0.1",
+    "morgan": "^1.9.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "request": "^2.88.0",
+    "rotating-file-stream": "^1.3.7",
+    "winston": "^3.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/charlie1404/minor-major.git"
+  },
+  "bugs": {
+    "url": "https://github.com/charlie1404/minor-major/issues"
+  },
+  "homepage": "https://github.com/charlie1404/minor-major"
+}
