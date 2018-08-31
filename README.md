@@ -1,4 +1,4 @@
-[//]: <> ( ![Logo of the project](./images/logo.sample.png)
+<!-- ![Logo of the project](./images/logo.sample.png) -->
 
 # WebMail &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/charlie1404/minor-major/blob/master/LICENSE) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 > A project to submit in my undergrade course.
