@@ -1,35 +1,22 @@
+const cors = require('cors');
+const helmet = require('helmet');
 const express = require('express');
 const bodyParser = require('body-parser');
-const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 
-const Logger = require('./utils/logger');
+const { Logger } = require('./utils');
+const routes = require('./routes');
 
 const app = express();
 
 app.disable('x-powered-by');
+app.use(cors());
 app.use(bodyParser.json());
 app.use(Logger.infoLogger());
 app.use(Logger.errorLogger());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(helmet());
-
-app.all('/test', (req, res) => {
-  res.status(200).json({
-    test: 'salmon',
-  });
-});
-
-app.post('/', (req, res) => {
-  res.status(200).json({
-    name: 'post',
-  });
-});
-app.get('/', (req, res) => {
-  res.status(200).json({
-    name: 'get',
-  });
-});
+app.use(routes);
 
 module.exports = app;
