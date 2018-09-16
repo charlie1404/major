@@ -1,18 +1,20 @@
 const mysql = require('mysql');
 const {
-  DB_HOST,
-  DB_PORT,
-  DB_NAME,
-  DB_USERNAME,
-  DB_PASSWORD,
+  database: {
+    dbHost,
+    dbPort,
+    dbName,
+    dbUsername,
+    dbPassword,
+  },
 } = require('../config');
 
 const credentials = {
-  host: DB_HOST,
-  user: DB_USERNAME,
-  port: DB_PORT,
-  password: DB_PASSWORD,
-  database: DB_NAME,
+  host: dbHost,
+  user: dbUsername,
+  port: dbPort,
+  password: dbPassword,
+  database: dbName,
 };
 const poolConfig = {
   connectionLimit: 10,
@@ -28,7 +30,8 @@ if (process.env.DB_SSH_TUNNELED) {
     const connection = mysql.createConnection(credentials);
     connection.connect((err) => {
       if (err) reject(err);
-      resolve(mysql.createPool(Object.assign({}, credentials, poolConfig)));
+      const pool = mysql.createPool(Object.assign({}, credentials, poolConfig));
+      resolve(pool);
     });
   });
 }
