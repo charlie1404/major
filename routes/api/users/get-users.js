@@ -1,8 +1,9 @@
-// const { DB } = require('../../../utils');
-// const { User } = require('../../../models');
+const { Users } = require('../../../models');
 
-const getUsers = (req, res) => {
-  res.status(200).end();
+const getUsers = async (req, res) => {
+  const users = await Users.listAll();
+  res.status(200);
+  res.json(users);
 };
 
 module.exports = getUsers;

@@ -1,12 +1,12 @@
-const Logger = require('./logger');
+const putLog = require('./put-log');
 
-const asyncMiddleware = fn => (req, res, next) => {
+const asyncErrorHandler = fn => (req, res, next) => {
   fn(req, res, next)
     .catch((err) => {
       if (err instanceof Error) {
-        Logger.putLog('error', null, err);
+        putLog('error', null, err);
       } else {
-        Logger.putLog('error', err.action, err);
+        putLog('error', err.action, err);
       }
       res.status(err.status || 500);
       res.json({
@@ -15,4 +15,4 @@ const asyncMiddleware = fn => (req, res, next) => {
     });
 };
 
-module.exports = asyncMiddleware;
+module.exports = asyncErrorHandler;

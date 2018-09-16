@@ -1,9 +1,11 @@
 const DB = require('./db');
-const Logger = require('./logger');
-const asyncMiddleware = require('./async-error-handler');
+const putLog = require('./put-log');
+const getHash = require('./get-hash');
+const asyncErrorHandler = require('./async-error-handler');
 
 module.exports = {
   DB,
-  Logger,
-  asyncMiddleware,
+  putLog,
+  getHash,
+  asyncErrorHandler,
 };

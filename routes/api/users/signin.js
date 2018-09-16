@@ -3,28 +3,25 @@ const {
   jwtPrivateKey,
   jwtConfig,
 } = require('../../../config');
-const { asyncMiddleware } = require('../../../utils');
+
 const { Users } = require('../../../models');
 
-const signin = asyncMiddleware(async (req, res) => {
+const signin = async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await Users.findOne(email.toLowerCase());
-  console.log(user);
+  const user = await Users.findOne(email.toLowerCase(), password);
 
-  const currentTime = Math.floor(Date.now() / 1000);
+  if (!user) throw new Error('Something very strange happened');
 
   const accessToken = jwt.sign({
     iss: 'https://charlieweb.tk',
     aud: email,
-    iat: currentTime,
-  },
-  jwtPrivateKey,
-  jwtConfig);
+    iat: Math.floor(Date.now() / 1000),
+  }, jwtPrivateKey, jwtConfig);
 
   return res.status(200).json({
     accessToken,
   });
-});
+};
 
 module.exports = signin;

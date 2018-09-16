@@ -1,3 +1,3 @@
 module.exports = {
-  NO_USER_FOUND: { action: 'LoginProcess', status: 422, message: 'Invalid Credentials' },
+  INVALID_CREDENTIALS: { action: 'LoginProcess', status: 422, message: 'Invalid Credentials' },
 };
