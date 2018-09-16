@@ -15,6 +15,23 @@ const consoleTransport = new transports.Console({
   json: true,
   colorize: true,
 });
+const fileTransport = new transports.File({
+  format: format.combine(
+    format.timestamp(),
+    format.printf(
+      info => `{timestamp: ${info.timestamp}, level:${info.level}, message: ${info.message}}`
+    )
+  ),
+  level: 'info',
+  filename: path.join(LOGS_PATH, 'general-logs.log'),
+  handleExceptions: false,
+  json: true,
+  colorize: false,
+});
+const exeptionFileTansport = new transports.File({
+  filename: path.join(LOGS_PATH, 'exceptions.log'),
+  level: 'silly',
+});
 
 const isProduction = process.env.NODE_ENV === 'production';
 const logger = createLogger({ transports: [consoleTransport], exitOnError: false });
@@ -32,22 +49,8 @@ morgan.token('headers', (req) => {
 
 if (process.env.NODE_ENV === 'production') {
   logger.remove(consoleTransport);
-  logger.add(new transports.File({
-    format: format.combine(
-      format.timestamp(),
-      format.printf(
-        info => `{timestamp: ${info.timestamp}, level:${info.level}, message: ${info.message}}`
-      )
-    ),
-    level: 'info',
-    filename: path.join(LOGS_PATH, 'general-logs.log'),
-    handleExceptions: false,
-    json: true,
-    colorize: false,
-  }));
-  logger.exceptions.handle(
-    new transports.File({ filename: path.join(LOGS_PATH, 'exceptions.log') })
-  );
+  logger.add(fileTransport);
+  logger.exceptions.handle(exeptionFileTansport);
 }
 const Logger = (() => {
   const infoLogger = () => morgan(logsFormat, {
@@ -68,13 +71,13 @@ const Logger = (() => {
       path: LOGS_PATH,
     }),
   });
-  const putLog = (level, msg) => {
+  const putLog = (level, process, msg) => {
     let message;
     if (msg instanceof Error) {
       message = JSON.stringify(msg, Object.getOwnPropertyNames(msg));
     } else {
       const cache = [];
-      message = JSON.stringify(message, (key, value) => {
+      message = JSON.stringify(msg, (key, value) => {
         if (typeof value === 'object' && value !== null) {
           if (cache.indexOf(value) !== -1) return null;
           cache.push(value);
