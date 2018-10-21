@@ -1,28 +1,26 @@
-// const jwt = require('jsonwebtoken');
-// const {
-//   jwtPrivateKey,
-//   jwtConfig,
-// } = require('../../../config');
+const jwt = require('jsonwebtoken');
+const {
+  jwtPrivateKey,
+  jwtConfig,
+} = require('../../../config');
 
-// const { Users } = require('../../../models');
+const { Users } = require('../../../models');
 
 const login = async (req, res) => {
-  // const { email, password } = req.body;
+  const { email, password } = req.body;
+  const user = await Users.findOne(email.toLowerCase(), password);
 
-  // const user = await Users.findOne(email.toLowerCase(), password);
+  if (!user) throw new Error('Something very strange happened');
 
-  // if (!user) throw new Error('Something very strange happened');
+  const token = jwt.sign({
+    iss: 'https://charlieweb.tk',
+    aud: email,
+    name: user.name,
+    iat: Math.floor(Date.now() / 1000),
+  }, jwtPrivateKey, jwtConfig);
 
-  // const accessToken = jwt.sign({
-  //   iss: 'https://charlieweb.tk',
-  //   aud: email,
-  //   iat: Math.floor(Date.now() / 1000),
-  // }, jwtPrivateKey, jwtConfig);
-
-  const accessToken = 'testVal';
-
-  return res.status(200).json({
-    accessToken,
+  res.status(200).json({
+    token,
   });
 };
 

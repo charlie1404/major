@@ -5,7 +5,7 @@ const { INVALID_CREDENTIALS } = require('../constants/errors');
 const { getHash } = require('../utils');
 
 const findOne = async (email, password) => {
-  const sql = 'SELECT `email`, `salt`, `password` from `users` where email = ?';
+  const sql = 'SELECT `name`, `email`, `salt`, `password` from `users` where email = ?';
   const [rs] = await executeQuery(sql, [email]);
   if (!rs) throw INVALID_CREDENTIALS;
   const hashedPassword = await getHash(password, rs.salt);
