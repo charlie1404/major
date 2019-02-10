@@ -62,3 +62,6 @@ utils/tunneled-connection.js
 
 # next.js build output
 .next
+
+# data folder
+data

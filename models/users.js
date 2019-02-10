@@ -1,45 +1,43 @@
-// const crypto = require('crypto');
+const { Schema, model } = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
+const { getHash } = require('@utils');
 
-const executeQuery = require('./helpers/execute-query');
-const { INVALID_CREDENTIALS } = require('../constants/errors');
-const { getHash } = require('../utils');
+const userSchema = new Schema({
+  name: String,
+  username: {
+    type: String,
+    unique: true,
+    lowercase: true,
+    required: [true, 'can\'t be blank'],
+    match: [/^[a-zA-Z0-9]+$/, 'is invalid'],
+    index: true,
+  },
+  email: {
+    type: String,
+    unique: true,
+    lowercase: true,
+    required: [true, 'can\'t be blank'],
+    match: [/\S+@\S+\.\S+/, 'is invalid'],
+    index: true,
+  },
+  password: { type: String, required: true },
+  contact: String,
+  gender: String,
+  avatar: String,
+});
 
-const findOne = async (email, password) => {
-  const sql = 'SELECT `name`, `email`, `salt`, `password` from `users` where email = ?';
-  const [rs] = await executeQuery(sql, [email]);
-  if (!rs) throw INVALID_CREDENTIALS;
-  const hashedPassword = await getHash(password, rs.salt);
+userSchema.plugin(uniqueValidator, { message: 'is already taken.' });
 
-  if (hashedPassword !== rs.password) {
-    throw INVALID_CREDENTIALS;
+userSchema.pre('save', async function preSave(next) {
+  const { hash, salt } = await getHash();
+  this.salt = salt;
+  this.password = hash;
+  this.updatedAt = Date.now();
+
+  if (!this.createdAt) {
+    this.createdAt = Date.now();
   }
+  next();
+});
 
-  return rs;
-};
-
-const listAll = async () => {
-  const sql = 'SELECT `name`, `email`, `contact`, `gender`, `avatar` from `users`';
-  const rs = await executeQuery(sql);
-  return rs;
-};
-
-// const saveOne = async (name, email, password, contact, gender, avatar) => {
-//   const salt = crypto.randomBytes(15).toString('base64');
-//   const sql = 'INSERT INTO `users` SET ?';
-//   const values = {
-//     name,
-//     email,
-//     salt,
-//     password: '',
-//     contact,
-//     gender,
-//     avatar,
-//   };
-//   const rs = await executeQuery(sql, values);
-// };
-
-module.exports = {
-  findOne,
-  listAll,
-  // saveOne,
-};
+module.exports = model('Users', userSchema);

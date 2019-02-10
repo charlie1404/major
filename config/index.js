@@ -1,11 +1,6 @@
 const path = require('path');
 
 const {
-  DB_HOST,
-  DB_NAME,
-  DB_USERNAME,
-  DB_PASSWORD,
-  DB_PORT,
   PUBLIC_KEY,
   PRIVATE_KEY,
   NODE_ENV,
@@ -18,13 +13,6 @@ const ENV_CONFIG = {
 
 const COMMON_CONFIG = {
   LOGS_PATH: path.join(__dirname, '..', 'logs'),
-  database: {
-    dbHost: DB_HOST || 'localhost',
-    dbName: DB_NAME || '',
-    dbUsername: DB_USERNAME || 'root',
-    dbPassword: DB_PASSWORD || '',
-    dbPort: DB_PORT || 3306,
-  },
   jwtPublicKey: Buffer.from(PUBLIC_KEY),
   jwtPrivateKey: Buffer.from(PRIVATE_KEY),
   jwtConfig: {
