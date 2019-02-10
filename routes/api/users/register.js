@@ -1,4 +1,4 @@
-const { Users } = require('@models');
+const { Users } = require('../../../models');
 
 const register = async (req, res) => {
   const user = new Users({

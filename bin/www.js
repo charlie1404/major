@@ -2,31 +2,7 @@
 
 const mongoose = require('mongoose');
 const http = require('http');
-const path = require('path');
-const fs = require('fs');
 require('dotenv').config('../.env');
-
-const symLinks = ['models', 'utils', 'constants'];
-
-if (process.argv[2] === '--remove-links') {
-  symLinks.forEach((symlink) => {
-    try { fs.unlinkSync(`./node_modules/@${symlink}`); } catch (err) { /**/ }
-  });
-  process.exit(0);
-}
-
-try {
-  symLinks.forEach((symlink) => {
-    const modelsRelativePath = path.relative('../node_modules/', `../${symlink}`);
-    fs.symlinkSync(modelsRelativePath, `./node_modules/@${symlink}`);
-  });
-} catch (err) {
-  if (err.code !== 'EEXIST') {
-    console.log(err);
-    process.exit(1);
-  }
-  console.log('Symlinks already exists');
-}
 
 const port = process.env.PORT || '3000';
 
