@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
-const { jwtPublicKey } = require('../config');
+const { jwtSecret } = require('../config');
 const { putLog } = require('../utils');
 
 const isAuthenticatedMiddleware = (req, res, next) => {
   try {
-    const user = jwt.verify(req.headers.authorization, jwtPublicKey);
+    const user = jwt.verify(req.cookies.sessionid, jwtSecret);
     req.client = user;
     next();
   } catch (error) {

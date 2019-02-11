@@ -20,4 +20,9 @@ app.use(cookieParser());
 app.use(helmet());
 app.use(routes);
 
+app.use((req, res) => {
+  res.status(404);
+  res.json({ error: 'Dead End. Route not Found' });
+});
+
 module.exports = app;

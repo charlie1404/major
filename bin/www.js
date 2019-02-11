@@ -3,8 +3,10 @@
 const mongoose = require('mongoose');
 const http = require('http');
 require('dotenv').config('../.env');
+require('module-alias/register');
 
-const port = process.env.PORT || '3000';
+const app = require('../app');
+const config = require('../config');
 
 const {
   DB_USERNAME = 'username',
@@ -12,19 +14,12 @@ const {
   DB_HOST = 'localhost',
   DB_PORT = 27017,
   DB_NAME = 'notes',
+  PORT: port = '3000',
 } = process.env;
 
-mongoose.connect(
-  `mongodb://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
-  {
-    useCreateIndex: true,
-    poolSize: 10,
-    useNewUrlParser: true,
-  }
-)
+mongoose.connect(`mongodb://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`, config.mongodbConfig)
   .then(() => {
     console.log('Connection established with database.');
-    const app = require('../app'); // eslint-disable-line global-require
     const server = http.createServer(app);
     app.set('port', port);
     server.listen(port, () => {

@@ -1,27 +1,44 @@
 const jwt = require('jsonwebtoken');
 const {
-  jwtPrivateKey,
+  jwtSecret,
   jwtConfig,
 } = require('../../../config');
 
 const { Users } = require('../../../models');
+const { getHash } = require('../../../utils');
+
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-  const user = await Users.findOne(email.toLowerCase(), password);
 
-  if (!user) throw new Error('Something very strange happened');
+  const user = await Users.findOne({
+    email: email.toLowerCase(),
+  });
+
+  const err = new Error('Invalid Credentials');
+  err.status = 400;
+
+  if (!user) {
+    throw err;
+  }
+
+  const { hash: derivedPassword } = await getHash(password, user.salt);
+
+  if (derivedPassword === user.password) {
+    throw err;
+  }
 
   const token = jwt.sign({
     iss: 'https://charlieweb.tk',
     aud: email,
     name: user.name,
     iat: Math.floor(Date.now() / 1000),
-  }, jwtPrivateKey, jwtConfig);
+  }, jwtSecret, jwtConfig);
 
-  res.status(200).json({
-    token,
-  });
+  res.status(200);
+  res.cookie('sessionid', token, { httpOnly: true });
+  res.end();
+  // res.json({ token });
 };
 
 module.exports = login;
