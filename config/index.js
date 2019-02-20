@@ -7,12 +7,22 @@ const {
   NODE_ENV,
 } = process.env;
 
+const authId = () => ({
+  httpOnly: true,
+  expires: new Date(Date.now() + 7200000),
+});
+const keepAlive = () => ({
+  expires: new Date(Date.now() + 7200000),
+});
+
 const ENV_CONFIG = {
   production: {
     mongodbConfig: {
       poolSize: 10,
       useNewUrlParser: true,
     },
+    authIdParams: () => Object.assign({}, authId(), { secure: true }),
+    keepAliveParams: () => Object.assign({}, keepAlive(), { secure: true }),
   },
   development: {
     mongodbConfig: {
@@ -20,6 +30,8 @@ const ENV_CONFIG = {
       poolSize: 2,
       useNewUrlParser: true,
     },
+    authIdParams: authId,
+    keepAliveParams: keepAlive,
   },
 };
 
@@ -31,6 +43,19 @@ const COMMON_CONFIG = {
   jwtConfig: {
     algorithm: 'HS256',
     expiresIn: 3600,
+  },
+  corsOptions: {
+    origin: true,
+    // origin: (origin, callback) => {
+    //   if (!origin || ['http://localhost:4000', 'http://charlieweb.tk'].indexOf(origin) !== -1) {
+    //     callback(null, true);
+    //   } else {
+    //     callback(new Error('Not allowed by CORS'));
+    //   }
+    // },
+    methods: ['GET', 'PUT', 'POST', 'DELETE'],
+    credentials: true,
+    maxAge: 600,
   },
 };
 

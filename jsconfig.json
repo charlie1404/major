@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "baseUrl": "./",
+    "paths": {
+      "@app/config" : ["config"],
+      "@app/config/*" : ["config/*"],
+      "@app/constants" : ["constants"],
+      "@app/constants/*" : ["constants/*"],
+      "@app/utils" : ["utils"],
+      "@app/utils/*" : ["utils/*"]
+    }
+  },
+  "exclude": ["node_modules", "**/node_modules/*"]
+}

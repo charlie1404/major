@@ -1,12 +1,14 @@
 const jwt = require('jsonwebtoken');
+const Users = require('mongoose').model('Users');
 const {
   jwtSecret,
   jwtConfig,
-} = require('../../../config');
+  authIdParams,
+  keepAliveParams,
+} = require('@app/config');
 
-const { Users } = require('../../../models');
+// const { Users } = require('../../../models');
 const { getHash } = require('../../../utils');
-
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -28,17 +30,20 @@ const login = async (req, res) => {
     throw err;
   }
 
-  const token = jwt.sign({
-    iss: 'https://charlieweb.tk',
-    aud: email,
-    name: user.name,
-    iat: Math.floor(Date.now() / 1000),
-  }, jwtSecret, jwtConfig);
+  const authId = process.env.LongTermJWT;
+  // const authId = jwt.sign({
+  //   iss: 'https://charlieweb.tk',
+  //   aud: email,
+  //   name: user.name,
+  //   iat: Math.floor(Date.now() / 1000),
+  // }, jwtSecret, jwtConfig);
 
-  res.status(200);
-  res.cookie('sessionid', token, { httpOnly: true });
-  res.end();
-  // res.json({ token });
+  setTimeout(() => {
+    res.status(200);
+    res.cookie('authid', authId, authIdParams());
+    res.cookie('keepalive', Date.now() + 7200000, keepAliveParams());
+    res.end();
+  }, 1000);
 };
 
 module.exports = login;

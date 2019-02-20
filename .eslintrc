@@ -17,6 +17,7 @@
       "before": false,
       "after": true
     }],
+    "import/no-unresolved": [1],
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "single"],
     "semi": ["error", "always"],

@@ -6,13 +6,17 @@
   "scripts": {
     "start": "nodemon bin/www",
     "start:dev": "nodemon bin/www",
-    "clean": "node bin/www --remove-links",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Shailendra Gupta",
   "license": "MIT",
   "engines": {
     "node": ">=8.10.4"
+  },
+  "_moduleAliases": {
+    "@app/config": "config",
+    "@app/constants": "constants",
+    "@app/utils": "utils"
   },
   "devDependencies": {
     "eslint": "^5.4.0",
@@ -29,10 +33,12 @@
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "express-jwt": "^5.3.1",
+    "express-jwt-permissions": "^1.2.3",
     "express-session": "^1.15.6",
     "helmet": "^3.13.0",
     "immutable": "^3.8.2",
-    "jsonwebtoken": "^8.3.0",
+    "jsonwebtoken": "^8.4.0",
+    "module-alias": "^2.1.0",
     "moment": "^2.22.2",
     "mongoose": "^5.4.11",
     "mongoose-unique-validator": "^2.0.2",
