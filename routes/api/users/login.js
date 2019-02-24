@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const Users = require('mongoose').model('Users');
+const { Users } = require('@app/models');
 const {
   jwtSecret,
   jwtConfig,
@@ -13,9 +13,7 @@ const { getHash } = require('../../../utils');
 const login = async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await Users.findOne({
-    email: email.toLowerCase(),
-  });
+  const user = await Users.findOne({ where: { email } });
 
   const err = new Error('Invalid Credentials');
   err.status = 400;
@@ -26,7 +24,7 @@ const login = async (req, res) => {
 
   const { hash: derivedPassword } = await getHash(password, user.salt);
 
-  if (derivedPassword === user.password) {
+  if (derivedPassword !== user.password) {
     throw err;
   }
 

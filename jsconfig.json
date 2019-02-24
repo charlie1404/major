@@ -5,6 +5,8 @@
     "paths": {
       "@app/config" : ["config"],
       "@app/config/*" : ["config/*"],
+      "@app/models" : ["models"],
+      "@app/models/*" : ["models/*"],
       "@app/constants" : ["constants"],
       "@app/constants/*" : ["constants/*"],
       "@app/utils" : ["utils"],

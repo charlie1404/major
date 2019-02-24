@@ -17,19 +17,10 @@ const keepAlive = () => ({
 
 const ENV_CONFIG = {
   production: {
-    mongodbConfig: {
-      poolSize: 10,
-      useNewUrlParser: true,
-    },
     authIdParams: () => Object.assign({}, authId(), { secure: true }),
     keepAliveParams: () => Object.assign({}, keepAlive(), { secure: true }),
   },
   development: {
-    mongodbConfig: {
-      useCreateIndex: true,
-      poolSize: 2,
-      useNewUrlParser: true,
-    },
     authIdParams: authId,
     keepAliveParams: keepAlive,
   },

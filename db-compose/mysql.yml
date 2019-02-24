@@ -9,10 +9,10 @@ services:
     volumes:
       - ./data/mysql:/var/lib/mysql
     environment:  # Set up mysql database name and password
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: notes
-      MYSQL_USER: username
-      MYSQL_PASSWORD: password
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
