@@ -1,7 +1,7 @@
 module.exports = {
   apps: [{
     name: 'Webmail API',
-    script: './bin/www',
+    script: './bin/www.js',
     watch: true,
     instances: 'max',
     exec_mode: 'cluster',
